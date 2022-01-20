@@ -1,9 +1,12 @@
-import Head from 'next/head';
-import Image from 'next/image';
+import { supabase } from '../lib/initSupabase';
 
-import styles from '../styles/Home.module.css';
+const Home = () => {
+  const user = supabase.auth.user();
 
-export default function Home() {
+  if (!user) {
+    return <div>no user</div>;
+  }
+
   return (
     <div>
       <div>
@@ -11,4 +14,6 @@ export default function Home() {
       </div>
     </div>
   );
-}
+};
+
+export default Home;

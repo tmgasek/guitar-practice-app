@@ -24,6 +24,7 @@ const RegisterPage = () => {
     }
     //create the user with supabase
     try {
+      setLoading(true);
       const { user, error } = await supabase.auth.signUp({
         email,
         password,
@@ -34,14 +35,14 @@ const RegisterPage = () => {
     } catch (error) {
       //show error
       console.log(error);
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <div>
       <div>
-        <h1>Supabase + Next.js</h1>
-        <p>Sign in via magic link with your email below</p>
         <div>
           <input type="email" placeholder="Your email" ref={emailEl} />
         </div>
@@ -64,7 +65,7 @@ const RegisterPage = () => {
             }}
             disabled={loading}
           >
-            <span>{loading ? 'Loading' : 'Send magic link'}</span>
+            <span>{loading ? 'Loading' : 'Register'}</span>
           </button>
         </div>
         <div>

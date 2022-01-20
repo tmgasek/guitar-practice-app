@@ -1,6 +1,18 @@
 import Link from 'next/link';
+import { supabase } from '../lib/initSupabase';
 
-const Navbar = () => {
+const Navbar = ({ user }) => {
+  const logOut = async () => {
+    try {
+      const { error } = await supabase.auth.signOut();
+      if (error) throw error;
+      console.log('logged out');
+    } catch (error) {
+      // show error
+      console.log(error);
+    }
+  };
+
   return (
     <div>
       <nav>
@@ -14,6 +26,7 @@ const Navbar = () => {
           <Link href={'/register'}>
             <a>Register</a>
           </Link>
+          {user && <button onClick={() => logOut()}>Log Out</button>}
         </div>
       </nav>
     </div>

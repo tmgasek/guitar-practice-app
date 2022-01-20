@@ -1,46 +1,56 @@
 import Link from 'next/link';
-import { useState } from 'react';
+import { useRouter } from 'next/router';
+import { useRef, useState } from 'react';
+import { supabase } from '../lib/initSupabase';
 
 const LoginPage = () => {
-  const [loading, setLoading] = useState(false);
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const router = useRouter();
 
-  const handleLogin = async (email, password) => {
-    console.log(email, password);
+  const [loading, setLoading] = useState(false);
+
+  const emailEl = useRef();
+  const passwordEl = useRef();
+
+  const handleLogin = async () => {
+    const { value: email } = emailEl.current;
+    const { value: password } = passwordEl.current;
+
+    //login the user
+    try {
+      setLoading(true);
+      const { user, error } = await supabase.auth.signIn({
+        email,
+        password,
+      });
+      //if there's an error received from supabase, we throw it to catch it in the catch block.
+      if (error) throw error;
+      router.push('/');
+    } catch (error) {
+      //show error
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <div>
       <div>
-        <h1>Supabase + Next.js</h1>
-        <p>Sign in via magic link with your email below</p>
         <div>
-          <input
-            type="email"
-            placeholder="Your email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
+          <input type="email" placeholder="Your email" ref={emailEl} />
         </div>
         <div>
-          <input
-            type="password"
-            placeholder="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
+          <input type="password" placeholder="password" ref={passwordEl} />
         </div>
-
         <div>
           <button
             onClick={(e) => {
               e.preventDefault();
-              handleLogin(email, password);
+              handleLogin();
             }}
             disabled={loading}
           >
-            <span>{loading ? 'Loading' : 'Send magic link'}</span>
+            <span>{loading ? 'Loading' : 'Log In'}</span>
           </button>
         </div>
         <div>
