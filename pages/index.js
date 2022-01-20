@@ -1,10 +1,9 @@
+import { useEffect, useState } from 'react';
 import { supabase } from '../lib/initSupabase';
 
-const Home = () => {
-  const user = supabase.auth.user();
-
-  if (!user) {
-    return <div>no user</div>;
+const Home = (props) => {
+  if (!props.user) {
+    return <div>No user.</div>;
   }
 
   return (
