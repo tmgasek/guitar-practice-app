@@ -20,12 +20,21 @@ const Navbar = ({ user }) => {
           <Link href={'/'}>
             <a>Home</a>
           </Link>
-          <Link href={'/login'}>
-            <a>Login</a>
-          </Link>
-          <Link href={'/register'}>
-            <a>Register</a>
-          </Link>
+          {!user && (
+            <Link href={'/login'}>
+              <a>Login</a>
+            </Link>
+          )}
+          {!user && (
+            <Link href={'/register'}>
+              <a>Register</a>
+            </Link>
+          )}
+          {user && (
+            <Link href={'/create'}>
+              <a>Create</a>
+            </Link>
+          )}
           {user && <button onClick={() => logOut()}>Log Out</button>}
         </div>
       </nav>

@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import { useRef, useState } from 'react';
 import { supabase } from '../lib/initSupabase';
 
-const RegisterPage = () => {
+const RegisterPage = ({ user: loggedInUser }) => {
   const router = useRouter();
 
   const [loading, setLoading] = useState(false);
@@ -11,6 +11,10 @@ const RegisterPage = () => {
   const emailEl = useRef();
   const passwordEl = useRef();
   const confirmPasswordEl = useRef();
+
+  if (loggedInUser) {
+    return <div>Already logged in!</div>;
+  }
 
   const handleRegister = async () => {
     const { value: email } = emailEl.current;

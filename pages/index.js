@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react';
+
+import Routines from '../components/Routines';
 import { supabase } from '../lib/initSupabase';
 
-const Home = (props) => {
-  if (!props.user) {
+const Home = ({ user: loggedInUser }) => {
+  if (!loggedInUser) {
     return <div>No user.</div>;
   }
 
@@ -10,6 +12,8 @@ const Home = (props) => {
     <div>
       <div>
         <h1>Hello</h1>
+
+        <Routines />
       </div>
     </div>
   );
