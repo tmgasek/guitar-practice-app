@@ -1,12 +1,15 @@
 import Link from 'next/link';
 import { supabase } from '../lib/initSupabase';
+import { useRouter } from 'next/router';
 
 const Navbar = ({ user }) => {
+  const router = useRouter();
+
   const logOut = async () => {
     try {
       const { error } = await supabase.auth.signOut();
       if (error) throw error;
-      console.log('logged out');
+      router.push('/login');
     } catch (error) {
       // show error
       console.log(error);

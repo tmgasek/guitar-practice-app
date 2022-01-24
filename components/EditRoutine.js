@@ -7,7 +7,7 @@ const EditRoutine = ({ routineToEdit, setIsEditing }) => {
 
   const router = useRouter();
   // maybe useRef() for this?
-  const [routineName, setRoutineName] = useState(routineToEdit.routine_name);
+  const [title, setTitle] = useState(routineToEdit.title);
   const [description, setDescription] = useState(routineToEdit.description);
   const [exercises, setExercises] = useState(routineToEdit.exercises);
   const [statusMsg, setStatusMsg] = useState(null);
@@ -18,7 +18,7 @@ const EditRoutine = ({ routineToEdit, setIsEditing }) => {
       const { error } = await supabase
         .from('routines')
         .update({
-          routine_name: routineName,
+          title,
           description,
           exercises,
         })
@@ -72,8 +72,8 @@ const EditRoutine = ({ routineToEdit, setIsEditing }) => {
           <input
             type={'text'}
             id="routine-name"
-            value={routineName}
-            onChange={(e) => setRoutineName(e.target.value)}
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
           />
         </div>
         <div>

@@ -5,7 +5,7 @@ import { useRouter } from 'next/router';
 const CreateRoutine = () => {
   const router = useRouter();
   // maybe useRef() for this?
-  const [routineName, setRoutineName] = useState('');
+  const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [exercises, setExercises] = useState([{ name: '', time: 0 }]);
   const [statusMsg, setStatusMsg] = useState(null);
@@ -13,11 +13,13 @@ const CreateRoutine = () => {
 
   const createRoutine = async () => {
     try {
+      const user = supabase.auth.user();
       const { error } = await supabase.from('routines').insert([
         {
-          routine_name: routineName,
+          title,
           description,
           exercises,
+          user_id: user.id,
         },
       ]);
       if (error) throw error;
@@ -68,8 +70,8 @@ const CreateRoutine = () => {
           <input
             type={'text'}
             id="routine-name"
-            value={routineName}
-            onChange={(e) => setRoutineName(e.target.value)}
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
           />
         </div>
         <div>

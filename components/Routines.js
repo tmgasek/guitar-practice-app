@@ -37,7 +37,7 @@ const Routines = () => {
     <div>
       {data.map((item) => (
         <div key={item.id}>
-          <h2>{item.routine_name}</h2>
+          <h2>{item.title}</h2>
           {item.exercises.map((exercise) => (
             <div key={exercise.name}>
               {exercise.name}, time: {exercise.time}{' '}

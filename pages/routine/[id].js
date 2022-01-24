@@ -58,7 +58,7 @@ const RoutinePage = () => {
   return (
     <div>
       <h1>Routine {id}</h1>
-      <div>{routine.routine_name}</div>
+      <div>{routine.title}</div>
       <div>{routine.description}</div>
       {routine.exercises.map((exercise) => (
         <div key={exercise.name}>
@@ -75,3 +75,13 @@ const RoutinePage = () => {
 };
 
 export default RoutinePage;
+
+export async function getServerSideProps({ req }) {
+  const { user } = await supabase.auth.api.getUserByCookie(req);
+
+  if (!user) {
+    return { props: {}, redirect: { destination: '/login' } };
+  }
+
+  return { props: {} };
+}
