@@ -22,10 +22,11 @@ const RoutinePage = () => {
       let { data: routine, error } = await supabase
         .from('routines')
         .select('*')
-        .eq('id', id);
+        .eq('id', id)
+        .single();
 
       if (error) throw error;
-      setRoutine(routine[0]);
+      setRoutine(routine);
       setIsLoading(false);
     } catch (error) {
       console.error(error);
@@ -52,7 +53,7 @@ const RoutinePage = () => {
   }
 
   if (!routine) {
-    return <div>No routine...</div>;
+    return null;
   }
 
   return (

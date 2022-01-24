@@ -1,41 +1,41 @@
 import { useState } from 'react';
 import { supabase } from '../lib/initSupabase';
-import { useRouter } from 'next/router';
+
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
+
+const validationSchema = yup.object().shape({
+  title: yup.string().required(),
+  description: yup.string(),
+});
 
 const EditRoutine = ({ routineToEdit, setIsEditing }) => {
-  console.log(routineToEdit);
-
-  const router = useRouter();
-  // maybe useRef() for this?
-  const [title, setTitle] = useState(routineToEdit.title);
-  const [description, setDescription] = useState(routineToEdit.description);
   const [exercises, setExercises] = useState(routineToEdit.exercises);
-  const [statusMsg, setStatusMsg] = useState(null);
-  const [errorMsg, setErrorMsg] = useState(null);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(validationSchema),
+  });
 
-  const editRoutine = async () => {
+  const editRoutine = async (data) => {
     try {
       const { error } = await supabase
         .from('routines')
         .update({
-          title,
-          description,
+          title: data.title,
+          description: data.description,
           exercises,
         })
         .eq('id', routineToEdit.id);
       if (error) throw error;
       console.log('Successfully edited');
       setIsEditing(false);
-      // router.push('/');
     } catch (error) {
       console.log(error);
     }
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    editRoutine();
-    console.log('submitted routine for editing');
   };
 
   const handleChange = (index, e) => {
@@ -58,33 +58,25 @@ const EditRoutine = ({ routineToEdit, setIsEditing }) => {
 
   return (
     <div>
-      {statusMsg ||
-        (errorMsg && (
-          <div>
-            <p>{errorMsg}</p>
-            <p>{statusMsg}</p>
-          </div>
-        ))}
       <h2>Edit routine</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="routine-name">Routine name</label>
-          <input
-            type={'text'}
-            id="routine-name"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-          />
-        </div>
-        <div>
-          <label htmlFor="description">Description</label>
-          <input
-            type={'text'}
-            id="description"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-          />
-        </div>
+      <form onSubmit={handleSubmit(editRoutine)}>
+        <label htmlFor="title">Title</label>
+        <input
+          defaultValue={routineToEdit.title}
+          name="title"
+          type={'text'}
+          {...register('title')}
+        />
+        <div>{errors.title?.message}</div>
+
+        <label htmlFor="description">Description</label>
+        <input
+          defaultValue={routineToEdit.description}
+          name="description"
+          type={'text'}
+          {...register('description')}
+        />
+        <div>{errors.description?.message}</div>
 
         <h4>Exercises</h4>
         <div>

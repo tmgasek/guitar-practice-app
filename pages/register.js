@@ -1,79 +1,86 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useRef, useState } from 'react';
+import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
 import { supabase } from '../lib/initSupabase';
+
+const validationSchema = yup.object().shape({
+  email: yup.string().required(),
+  password: yup
+    .string()
+    .required('Password is required')
+    .min(6, 'Password must be at least 6 characters'),
+  confirmPassword: yup
+    .string()
+    .required('Confirm Password is required')
+    .oneOf([yup.ref('password')], 'Passwords must match'),
+});
 
 const RegisterPage = () => {
   const router = useRouter();
-
   const [loading, setLoading] = useState(false);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(validationSchema),
+  });
 
-  const emailEl = useRef();
-  const passwordEl = useRef();
-  const confirmPasswordEl = useRef();
-
-  const handleRegister = async () => {
-    const { value: email } = emailEl.current;
-    const { value: password } = passwordEl.current;
-    const { value: confirmPassword } = confirmPasswordEl.current;
-
-    if (password !== confirmPassword) {
-      //show error
-      console.log('password mismatch!');
-      return;
-    }
+  const handleRegister = async (data) => {
     //create the user with supabase
     try {
       setLoading(true);
       const { error } = await supabase.auth.signUp({
-        email,
-        password,
+        email: data.email,
+        password: data.password,
       });
       //if there's an error received from supabase, we throw it to catch it in the catch block.
       if (error) throw error;
       router.push('/login');
     } catch (error) {
-      //show error
       console.log(error);
     } finally {
       setLoading(false);
     }
   };
 
+  if (loading) {
+    return <div>Registering... Redirecting to login if successful...</div>;
+  }
+
   return (
     <div>
-      <div>
-        <div>
-          <input type="email" placeholder="Your email" ref={emailEl} />
-        </div>
-        <div>
-          <input type="password" placeholder="password" ref={passwordEl} />
-        </div>
-        <div>
-          <input
-            type="password"
-            placeholder="confirm password"
-            ref={confirmPasswordEl}
-          />
-        </div>
+      <form onSubmit={handleSubmit(handleRegister)}>
+        <label htmlFor="email">Email</label>
+        <input name="email" type={'email'} {...register('email')} />
+        <div>{errors.email?.message}</div>
 
-        <div>
-          <button
-            onClick={(e) => {
-              e.preventDefault();
-              handleRegister();
-            }}
-            disabled={loading}
-          >
-            <span>{loading ? 'Loading' : 'Register'}</span>
-          </button>
-        </div>
-        <div>
-          <h4>Already registered?</h4>
+        <label htmlFor="password">Password</label>
+        <input name="password" type={'password'} {...register('password')} />
+        <div>{errors.password?.message}</div>
+
+        <label htmlFor="confirmPassword">Confirm Password</label>
+        <input
+          name="confirmPassword"
+          type={'password'}
+          {...register('confirmPassword')}
+        />
+        <div>{errors.confirmPassword?.message}</div>
+
+        <input type="submit" />
+      </form>
+      <div>
+        <h3>
+          Already have an account?{' '}
           <Link href={'/login'}>
-            <a>Log in</a>
+            <a>
+              <button>Go to Login</button>
+            </a>
           </Link>
-        </div>
+        </h3>
       </div>
     </div>
   );

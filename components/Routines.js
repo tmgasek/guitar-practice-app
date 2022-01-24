@@ -1,24 +1,14 @@
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
-import useSWR from 'swr';
 import { supabase } from '../lib/initSupabase';
 
-const fetcher = (url) => {
-  return fetch(url).then((res) => {
-    return res.json();
-  });
-};
-
 const Routines = () => {
-  const { data: SWRData } = useSWR('/api/routines', fetcher);
   const [data, setData] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     getData();
   }, []);
-
-  console.log(SWRData);
 
   const getData = async () => {
     try {

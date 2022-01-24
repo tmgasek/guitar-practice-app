@@ -5,14 +5,19 @@ import { supabase } from '../lib/initSupabase';
 import Navbar from '../components/Navbar';
 
 function MyApp({ Component, pageProps }) {
-  const [loggedInUser, setLoggedInUser] = useState(null);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
     //fires when user signs in / out
     const { data: authListener } = supabase.auth.onAuthStateChange(
       (event, session) => {
         updateSupabaseCookie(event, session);
-        checkUser();
+        if (event === 'SIGNED_IN') {
+          setIsLoggedIn(true);
+        }
+        if (event === 'SIGNED_OUT') {
+          setIsLoggedIn(false);
+        }
       }
     );
     checkUser();
@@ -24,9 +29,7 @@ function MyApp({ Component, pageProps }) {
   const checkUser = async () => {
     const user = await supabase.auth.user();
     if (user) {
-      setLoggedInUser(user);
-    } else {
-      setLoggedInUser(null);
+      setIsLoggedIn(true);
     }
   };
 
@@ -41,7 +44,7 @@ function MyApp({ Component, pageProps }) {
 
   return (
     <Layout title={'Guitar Practice App'}>
-      <Navbar user={loggedInUser} />
+      <Navbar user={isLoggedIn} />
       <Component {...pageProps} />
     </Layout>
   );

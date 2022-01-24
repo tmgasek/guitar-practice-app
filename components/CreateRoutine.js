@@ -2,22 +2,34 @@ import { useState } from 'react';
 import { supabase } from '../lib/initSupabase';
 import { useRouter } from 'next/router';
 
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
+
+const validationSchema = yup.object().shape({
+  title: yup.string().required(),
+  description: yup.string(),
+});
+
 const CreateRoutine = () => {
   const router = useRouter();
-  // maybe useRef() for this?
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
+  //TODO: figure out how to validate dynamic field like this.
   const [exercises, setExercises] = useState([{ name: '', time: 0 }]);
-  const [statusMsg, setStatusMsg] = useState(null);
-  const [errorMsg, setErrorMsg] = useState(null);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(validationSchema),
+  });
 
-  const createRoutine = async () => {
+  const createRoutine = async (data) => {
     try {
       const user = supabase.auth.user();
       const { error } = await supabase.from('routines').insert([
         {
-          title,
-          description,
+          title: data.title,
+          description: data.description,
           exercises,
           user_id: user.id,
         },
@@ -28,12 +40,6 @@ const CreateRoutine = () => {
     } catch (error) {
       console.log(error);
     }
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    createRoutine();
-    console.log('submitted routine');
   };
 
   const handleChange = (index, e) => {
@@ -56,33 +62,14 @@ const CreateRoutine = () => {
 
   return (
     <div>
-      {statusMsg ||
-        (errorMsg && (
-          <div>
-            <p>{errorMsg}</p>
-            <p>{statusMsg}</p>
-          </div>
-        ))}
-      <h2>Create new routine</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="routine-name">Routine name</label>
-          <input
-            type={'text'}
-            id="routine-name"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-          />
-        </div>
-        <div>
-          <label htmlFor="description">Description</label>
-          <input
-            type={'text'}
-            id="description"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-          />
-        </div>
+      <form onSubmit={handleSubmit(createRoutine)}>
+        <label htmlFor="title">Title</label>
+        <input name="title" type={'text'} {...register('title')} />
+        <div>{errors.title?.message}</div>
+
+        <label htmlFor="description">Description</label>
+        <input name="description" type={'text'} {...register('description')} />
+        <div>{errors.description?.message}</div>
 
         <h4>Exercises</h4>
         <div>
@@ -113,7 +100,7 @@ const CreateRoutine = () => {
           ))}
         </div>
         <button onClick={addField}>Add an exercise</button>
-        <button type="submit">Submit routine</button>
+        <input type={'submit'} />
       </form>
     </div>
   );

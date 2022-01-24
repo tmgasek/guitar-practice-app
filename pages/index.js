@@ -1,8 +1,7 @@
-import { useEffect, useState } from 'react';
 import Routines from '../components/Routines';
 import { supabase } from '../lib/initSupabase';
 
-const Home = ({ user }) => {
+const Home = () => {
   return (
     <div>
       <div>
@@ -22,5 +21,5 @@ export async function getServerSideProps({ req }) {
     return { props: {}, redirect: { destination: '/login' } };
   }
 
-  return { props: { user } };
+  return { props: {} };
 }
