@@ -25,21 +25,6 @@ const Routines = () => {
     }
   };
 
-  const deleteOne = async (id) => {
-    try {
-      const { error } = await supabase.from('routines').delete().eq('id', id);
-      if (error) throw error;
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const handleDelete = async (e, item) => {
-    e.preventDefault();
-    await deleteOne(item.id);
-    setData((data) => data.filter((i) => i.id !== item.id));
-  };
-
   if (isLoading) {
     return <div>Loading</div>;
   }
@@ -61,7 +46,6 @@ const Routines = () => {
           <Link href={`/routine/${item.id}`}>
             <a>Go to routine</a>
           </Link>
-          <button onClick={(e) => handleDelete(e, item)}>Delete</button>
         </div>
       ))}
     </div>

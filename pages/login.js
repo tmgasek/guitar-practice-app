@@ -3,15 +3,11 @@ import { useRouter } from 'next/router';
 import { useEffect, useRef, useState } from 'react';
 import { supabase } from '../lib/initSupabase';
 
-const LoginPage = ({ user: loggedInUser }) => {
+const LoginPage = () => {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const emailEl = useRef();
   const passwordEl = useRef();
-
-  if (loggedInUser) {
-    return <div>Already logged in!</div>;
-  }
 
   const handleLogin = async () => {
     const { value: email } = emailEl.current;

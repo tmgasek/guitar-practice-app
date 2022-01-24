@@ -22,8 +22,9 @@ function MyApp({ Component, pageProps }) {
 
   return (
     <Layout>
-      <Navbar user={user} />
-      <Component user={user} {...pageProps} />
+      <Navbar />
+
+      <Component {...pageProps} />
     </Layout>
   );
 }
