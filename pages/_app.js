@@ -3,10 +3,8 @@ import '../styles/globals.css';
 import { useState, useEffect } from 'react';
 import { supabase } from '../lib/initSupabase';
 import Navbar from '../components/Navbar';
-import { useRouter } from 'next/router';
 
 function MyApp({ Component, pageProps }) {
-  const router = useRouter();
   const [loggedInUser, setLoggedInUser] = useState(null);
 
   useEffect(() => {
@@ -15,7 +13,6 @@ function MyApp({ Component, pageProps }) {
       (event, session) => {
         updateSupabaseCookie(event, session);
         checkUser();
-        console.log(event);
       }
     );
     checkUser();

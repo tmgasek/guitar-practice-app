@@ -25,7 +25,7 @@ const RegisterPage = () => {
     //create the user with supabase
     try {
       setLoading(true);
-      const { user, error } = await supabase.auth.signUp({
+      const { error } = await supabase.auth.signUp({
         email,
         password,
       });
