@@ -27,6 +27,11 @@ const Navbar = ({ user }) => {
               <a>Login</a>
             </Link>
           )}
+          {!user && (
+            <Link href={'/register'}>
+              <a>Register</a>
+            </Link>
+          )}
           {user && (
             <Link href={'/create'}>
               <a>Create</a>

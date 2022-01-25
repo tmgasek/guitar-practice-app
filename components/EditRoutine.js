@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { supabase } from '../lib/initSupabase';
-
+import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
@@ -10,7 +10,8 @@ const validationSchema = yup.object().shape({
   description: yup.string(),
 });
 
-const EditRoutine = ({ routineToEdit, setIsEditing }) => {
+const EditRoutine = ({ routineToEdit }) => {
+  const router = useRouter();
   const [exercises, setExercises] = useState(routineToEdit.exercises);
   const {
     register,
@@ -30,9 +31,10 @@ const EditRoutine = ({ routineToEdit, setIsEditing }) => {
           exercises,
         })
         .eq('id', routineToEdit.id);
+
       if (error) throw error;
+      router.push('/');
       console.log('Successfully edited');
-      setIsEditing(false);
     } catch (error) {
       console.log(error);
     }

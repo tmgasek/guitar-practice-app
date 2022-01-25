@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
@@ -12,10 +12,13 @@ const validationSchema = yup.object().shape({
     .string()
     .required('Password is required')
     .min(6, 'Password must be at least 6 characters'),
+  confirmPassword: yup
+    .string()
+    .required('Confirm Password is required')
+    .oneOf([yup.ref('password')], 'Passwords must match'),
 });
 
-const LoginPage = () => {
-  const loggedInUser = supabase.auth.user();
+const RegisterPage = () => {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const {
@@ -26,18 +29,18 @@ const LoginPage = () => {
     resolver: yupResolver(validationSchema),
   });
 
-  const handleLogin = async (data) => {
-    //login the user
+  const handleRegister = async (data) => {
+    //create the user with supabase
     try {
       setLoading(true);
-      const { error } = await supabase.auth.signIn({
+      const { error } = await supabase.auth.signUp({
         email: data.email,
         password: data.password,
       });
       //if there's an error received from supabase, we throw it to catch it in the catch block.
       if (error) throw error;
+      router.push('/login');
     } catch (error) {
-      //show error
       console.log(error);
     } finally {
       setLoading(false);
@@ -45,12 +48,12 @@ const LoginPage = () => {
   };
 
   if (loading) {
-    return <div>Login succesful! Redirecting to Home...</div>;
+    return <div>Registering... Redirecting to login if successful...</div>;
   }
 
   return (
     <div>
-      <form onSubmit={handleSubmit(handleLogin)}>
+      <form onSubmit={handleSubmit(handleRegister)}>
         <label htmlFor="email">Email</label>
         <input name="email" type={'email'} {...register('email')} />
         <div>{errors.email?.message}</div>
@@ -59,19 +62,31 @@ const LoginPage = () => {
         <input name="password" type={'password'} {...register('password')} />
         <div>{errors.password?.message}</div>
 
+        <label htmlFor="confirmPassword">Confirm Password</label>
+        <input
+          name="confirmPassword"
+          type={'password'}
+          {...register('confirmPassword')}
+        />
+        <div>{errors.confirmPassword?.message}</div>
+
         <input type="submit" />
       </form>
       <div>
-        <h4>Don&apos;t have an account?</h4>
-        <Link href={'/register'}>
-          <a>Register</a>
-        </Link>
+        <h3>
+          Already have an account?{' '}
+          <Link href={'/login'}>
+            <a>
+              <button>Go to Login</button>
+            </a>
+          </Link>
+        </h3>
       </div>
     </div>
   );
 };
 
-export default LoginPage;
+export default RegisterPage;
 
 export async function getServerSideProps({ req }) {
   const { user } = await supabase.auth.api.getUserByCookie(req);
