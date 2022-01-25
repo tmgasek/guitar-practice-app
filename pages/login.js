@@ -15,6 +15,7 @@ const validationSchema = yup.object().shape({
 });
 
 const LoginPage = () => {
+  const loggedInUser = supabase.auth.user();
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const {
@@ -24,6 +25,14 @@ const LoginPage = () => {
   } = useForm({
     resolver: yupResolver(validationSchema),
   });
+
+  useEffect(() => {
+    if (loggedInUser || loading) {
+      console.log('Ran login redirect');
+      router.push('/');
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [loggedInUser, loading]);
 
   const handleLogin = async (data) => {
     //login the user
