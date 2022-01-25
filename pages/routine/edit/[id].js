@@ -40,7 +40,12 @@ const RoutinePage = () => {
   return (
     <div>
       <ManageRoutine routineToEdit={routine} />
-      <button onClick={(e) => handleDelete(e, routine)}>Delete</button>
+      <button
+        className="btn-tertiary"
+        onClick={(e) => handleDelete(e, routine)}
+      >
+        Delete routine
+      </button>
     </div>
   );
 };

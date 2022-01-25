@@ -2,6 +2,7 @@ import { useRouter } from 'next/router';
 import { supabase } from '../../lib/initSupabase';
 
 import useSWR from 'swr';
+import Routine from '../../components/Routine';
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
 const RoutinePage = () => {
@@ -23,17 +24,7 @@ const RoutinePage = () => {
 
   return (
     <div>
-      <h1>Routine </h1>
-      <div>{routine.title}</div>
-      <div>{routine.description}</div>
-      {routine.exercises.map((exercise) => (
-        <div key={exercise.name}>
-          {exercise.name}, time: {exercise.time}
-        </div>
-      ))}
-      <button onClick={() => router.push(`/routine/edit/${routine.id}`)}>
-        Edit
-      </button>
+      <Routine routine={routine} />
     </div>
   );
 };

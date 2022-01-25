@@ -7,8 +7,9 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 
 const validationSchema = yup.object().shape({
-  title: yup.string().required(),
-  description: yup.string(),
+  title: yup.string().required().min(3).max(20),
+  description: yup.string().min(3).max(50),
+  name: yup.string().min(5),
 });
 const CreateRoutine = ({ routineToEdit }) => {
   const router = useRouter();
@@ -105,7 +106,7 @@ const CreateRoutine = ({ routineToEdit }) => {
             type={'text'}
             {...register('title')}
             placeholder="Title"
-            defaultValue={routineToEdit.title || ''}
+            defaultValue={routineToEdit?.title || ''}
           />
           <div>{errors.title?.message}</div>
 
@@ -114,7 +115,7 @@ const CreateRoutine = ({ routineToEdit }) => {
             type={'text'}
             {...register('description')}
             placeholder="Description"
-            defaultValue={routineToEdit.description || ''}
+            defaultValue={routineToEdit?.description || ''}
           />
           <div>{errors.description?.message}</div>
         </div>
@@ -127,7 +128,7 @@ const CreateRoutine = ({ routineToEdit }) => {
                 <input
                   type={'text'}
                   name="name"
-                  value={exercise.name || ''}
+                  value={exercise?.name || ''}
                   onChange={(e) => handleChange(index, e)}
                   placeholder="Exercise name"
                 />
@@ -137,7 +138,7 @@ const CreateRoutine = ({ routineToEdit }) => {
                   className="w-20"
                   type={'number'}
                   name="time"
-                  value={exercise.time || ''}
+                  value={exercise?.time || ''}
                   onChange={(e) => handleChange(index, e)}
                   placeholder="Time"
                 />
@@ -148,17 +149,11 @@ const CreateRoutine = ({ routineToEdit }) => {
               ) : null}
             </div>
           ))}
-          <button
-            className="bg-sky text-dark px-2 py-1 rounded-lg my-2 cursor-pointer transition duration-150 ease-in-out transform hover:scale-105 "
-            onClick={addField}
-          >
+          <button className="btn-secondary" onClick={addField}>
             Add an exercise
           </button>
         </div>
-        <input
-          className="bg-watermelon border-0 font-bold text-dark px-2 py-2 rounded-lg my-4 cursor-pointer transition duration-150 ease-in-out transform hover:scale-105 "
-          type={'submit'}
-        />
+        <input className="btn-primary " type={'submit'} />
       </form>
     </div>
   );
