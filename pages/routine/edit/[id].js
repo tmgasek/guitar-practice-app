@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
 import { supabase } from '../../../lib/initSupabase';
-import EditRoutine from '../../../components/EditRoutine';
+import ManageRoutine from '../../../components/ManageRoutine';
 import useSWR from 'swr';
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
@@ -39,7 +39,7 @@ const RoutinePage = () => {
 
   return (
     <div>
-      <EditRoutine routineToEdit={routine} />
+      <ManageRoutine routineToEdit={routine} />
       <button onClick={(e) => handleDelete(e, routine)}>Delete</button>
     </div>
   );

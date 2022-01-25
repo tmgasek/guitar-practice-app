@@ -6,9 +6,16 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        default: ['LEMON MILK'],
+        default: [''],
+      },
+      colors: {
+        sky: '#CAEBF2',
+        carbon: '#a9a9a9',
+        watermelon: '#ff3b3f',
+        neutral: '#efefef',
+        dark: '#252525',
       },
     },
   },
-  plugins: [require('daisyui')],
+  plugins: [],
 };

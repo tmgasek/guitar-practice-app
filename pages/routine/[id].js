@@ -1,5 +1,4 @@
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
 import { supabase } from '../../lib/initSupabase';
 
 import useSWR from 'swr';

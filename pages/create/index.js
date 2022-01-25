@@ -1,12 +1,10 @@
-import { useRouter } from 'next/router';
-import React, { useEffect } from 'react';
-import CreateRoutine from '../../components/CreateRoutine';
+import ManageRoutine from '../../components/ManageRoutine';
 import { supabase } from '../../lib/initSupabase';
 
 const Create = () => {
   return (
     <div>
-      <CreateRoutine />
+      <ManageRoutine />
     </div>
   );
 };

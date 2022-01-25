@@ -1,11 +1,12 @@
-@import url('http://fonts.cdnfonts.com/css/lemon-milk');
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
-  body {
-    @apply font-default;
+  html {
+    @apply bg-dark text-neutral;
+  }
+  input {
+    @apply bg-transparent border-2 border-carbon my-1 px-1 mx-1;
   }
 }

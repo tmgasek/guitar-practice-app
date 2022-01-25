@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { supabase } from '../lib/initSupabase';
 import { useRouter } from 'next/router';
 
@@ -10,8 +10,7 @@ const validationSchema = yup.object().shape({
   title: yup.string().required(),
   description: yup.string(),
 });
-
-const CreateRoutine = () => {
+const CreateRoutine = ({ routineToEdit }) => {
   const router = useRouter();
   //TODO: figure out how to validate dynamic field like this.
   const [exercises, setExercises] = useState([{ name: '', time: 0 }]);
@@ -22,6 +21,12 @@ const CreateRoutine = () => {
   } = useForm({
     resolver: yupResolver(validationSchema),
   });
+
+  useEffect(() => {
+    if (routineToEdit) {
+      setExercises(routineToEdit.exercises);
+    }
+  }, [routineToEdit]);
 
   const createRoutine = async (data) => {
     try {
@@ -37,6 +42,25 @@ const CreateRoutine = () => {
       if (error) throw error;
       console.log('Successfully submitted');
       router.push('/');
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const editRoutine = async (data) => {
+    try {
+      const { error } = await supabase
+        .from('routines')
+        .update({
+          title: data.title,
+          description: data.description,
+          exercises,
+        })
+        .eq('id', routineToEdit.id);
+
+      if (error) throw error;
+      router.push('/');
+      console.log('Successfully edited');
     } catch (error) {
       console.log(error);
     }
@@ -62,45 +86,79 @@ const CreateRoutine = () => {
 
   return (
     <div>
-      <form onSubmit={handleSubmit(createRoutine)}>
-        <label htmlFor="title">Title</label>
-        <input name="title" type={'text'} {...register('title')} />
-        <div>{errors.title?.message}</div>
+      {routineToEdit ? (
+        <h2 className="text-2xl mb-4">Edit routine</h2>
+      ) : (
+        <h2 className="text-2xl mb-4">Create a new routine</h2>
+      )}
+      <form
+        onSubmit={
+          routineToEdit
+            ? handleSubmit(editRoutine)
+            : handleSubmit(createRoutine)
+        }
+        className="flex flex-col"
+      >
+        <div className="flex flex-col">
+          <input
+            name="title"
+            type={'text'}
+            {...register('title')}
+            placeholder="Title"
+            defaultValue={routineToEdit.title || ''}
+          />
+          <div>{errors.title?.message}</div>
 
-        <label htmlFor="description">Description</label>
-        <input name="description" type={'text'} {...register('description')} />
-        <div>{errors.description?.message}</div>
+          <input
+            name="description"
+            type={'text'}
+            {...register('description')}
+            placeholder="Description"
+            defaultValue={routineToEdit.description || ''}
+          />
+          <div>{errors.description?.message}</div>
+        </div>
 
-        <h4>Exercises</h4>
         <div>
+          <h4>Exercises</h4>
           {exercises.map((exercise, index) => (
             <div key={index}>
               <div>
-                <label htmlFor="exercise-name">Exercise name</label>
                 <input
                   type={'text'}
                   name="name"
                   value={exercise.name || ''}
                   onChange={(e) => handleChange(index, e)}
+                  placeholder="Exercise name"
                 />
               </div>
               <div>
-                <label htmlFor="exercise-time">Time</label>
                 <input
+                  className="w-20"
                   type={'number'}
                   name="time"
-                  value={exercise.time || 0}
+                  value={exercise.time || ''}
                   onChange={(e) => handleChange(index, e)}
+                  placeholder="Time"
                 />
+                minutes
               </div>
               {index ? (
                 <button onClick={(e) => deleteField(index, e)}>Delete</button>
               ) : null}
             </div>
           ))}
+          <button
+            className="bg-sky text-dark px-2 py-1 rounded-lg my-2 cursor-pointer transition duration-150 ease-in-out transform hover:scale-105 "
+            onClick={addField}
+          >
+            Add an exercise
+          </button>
         </div>
-        <button onClick={addField}>Add an exercise</button>
-        <input type={'submit'} />
+        <input
+          className="bg-watermelon border-0 font-bold text-dark px-2 py-2 rounded-lg my-4 cursor-pointer transition duration-150 ease-in-out transform hover:scale-105 "
+          type={'submit'}
+        />
       </form>
     </div>
   );

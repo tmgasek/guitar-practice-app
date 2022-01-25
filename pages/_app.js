@@ -48,10 +48,12 @@ function MyApp({ Component, pageProps }) {
   }
 
   return (
-    <Layout title={'Guitar Practice App'}>
+    <>
       <Navbar user={isLoggedIn} />
-      <Component {...pageProps} />
-    </Layout>
+      <Layout title={'Guitar Practice App'}>
+        <Component {...pageProps} />
+      </Layout>
+    </>
   );
 }
 

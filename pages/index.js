@@ -18,9 +18,7 @@ const Home = () => {
 
   return (
     <div>
-      <div>
-        <Routines routines={routines} />
-      </div>
+      <Routines routines={routines} />
     </div>
   );
 };
