@@ -16,7 +16,7 @@ function MyApp({ Component, pageProps }) {
         updateSupabaseCookie(event, session);
         if (event === 'SIGNED_IN') {
           setIsLoggedIn(true);
-          router.push('/');
+          window.location = '/';
         }
         if (event === 'SIGNED_OUT') {
           setIsLoggedIn(false);

@@ -14,12 +14,12 @@ const Home = () => {
 
 export default Home;
 
-// export async function getServerSideProps({ req }) {
-//   const { user } = await supabase.auth.api.getUserByCookie(req);
+export async function getServerSideProps({ req }) {
+  const { user } = await supabase.auth.api.getUserByCookie(req);
 
-//   if (!user) {
-//     return { props: {}, redirect: { destination: '/login' } };
-//   }
+  if (!user) {
+    return { props: {}, redirect: { destination: '/login' } };
+  }
 
-//   return { props: {} };
-// }
+  return { props: {} };
+}

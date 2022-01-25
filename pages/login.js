@@ -26,14 +26,6 @@ const LoginPage = () => {
     resolver: yupResolver(validationSchema),
   });
 
-  useEffect(() => {
-    if (loggedInUser || loading) {
-      console.log('Ran login redirect');
-      router.push('/');
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [loggedInUser, loading]);
-
   const handleLogin = async (data) => {
     //login the user
     try {
