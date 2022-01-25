@@ -1,12 +1,13 @@
 import Routines from '../components/Routines';
 import { supabase } from '../lib/initSupabase';
 
-const Home = () => {
+const Home = ({ routines }) => {
+  console.log(routines);
   return (
     <div>
       <div>
         <h1>Hello</h1>
-        <Routines />
+        <Routines data={routines} />
       </div>
     </div>
   );
@@ -21,5 +22,19 @@ export async function getServerSideProps({ req }) {
     return { props: {}, redirect: { destination: '/login' } };
   }
 
-  return { props: {} };
+  supabase.auth.setAuth(req.cookies['sb:token']);
+
+  const { data: routines, error } = await supabase.from('routines').select('*');
+
+  if (error) {
+    return {
+      notFound: true,
+    };
+  }
+
+  return {
+    props: {
+      routines,
+    },
+  };
 }

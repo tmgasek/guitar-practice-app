@@ -2,37 +2,7 @@ import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 import { supabase } from '../lib/initSupabase';
 
-const Routines = () => {
-  const [data, setData] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
-
-  useEffect(() => {
-    getData();
-  }, []);
-
-  const getData = async () => {
-    try {
-      setIsLoading(true);
-      const { data: routines, error } = await supabase
-        .from('routines')
-        .select('*');
-
-      if (error) throw error;
-      setData(routines);
-      setIsLoading(false);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  if (isLoading) {
-    return <div>Loading</div>;
-  }
-
-  if (!data) {
-    return <div>No data...</div>;
-  }
-
+const Routines = ({ data }) => {
   return (
     <div>
       {data.map((item) => (

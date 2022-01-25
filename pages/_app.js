@@ -16,7 +16,7 @@ function MyApp({ Component, pageProps }) {
         updateSupabaseCookie(event, session);
         if (event === 'SIGNED_IN') {
           setIsLoggedIn(true);
-          window.location = '/';
+          router.push('/');
         }
         if (event === 'SIGNED_OUT') {
           setIsLoggedIn(false);
@@ -28,6 +28,7 @@ function MyApp({ Component, pageProps }) {
     return () => {
       authListener?.unsubscribe();
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const checkUser = async () => {
