@@ -32,7 +32,7 @@ function MyApp({ Component, pageProps }) {
   }, []);
 
   const checkUser = async () => {
-    const user = await supabase.auth.user();
+    const user = supabase.auth.user();
     if (user) {
       setIsLoggedIn(true);
     }

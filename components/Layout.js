@@ -3,7 +3,7 @@ import React from 'react';
 
 const Layout = ({ children, title }) => {
   return (
-    <div>
+    <div className="max-w-4xl mx-auto px-4">
       <Head>
         <title>{title}</title>
       </Head>

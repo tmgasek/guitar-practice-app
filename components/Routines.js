@@ -1,10 +1,10 @@
 import Link from 'next/link';
 
-const Routines = ({ data }) => {
+const Routines = ({ routines }) => {
   return (
-    <div>
-      {data.map((item) => (
-        <div key={item.id}>
+    <div className="grid grid-cols-3 justify-center">
+      {routines.map((item) => (
+        <div className="p-4 border-2 m-4" key={item.id}>
           <h2>{item.title}</h2>
           {item.exercises.map((exercise) => (
             <div key={exercise.name}>
