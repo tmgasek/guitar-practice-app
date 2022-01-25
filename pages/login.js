@@ -35,7 +35,6 @@ const LoginPage = () => {
       });
       //if there's an error received from supabase, we throw it to catch it in the catch block.
       if (error) throw error;
-      router.push('/');
     } catch (error) {
       //show error
       console.log(error);

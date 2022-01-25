@@ -3,8 +3,10 @@ import '../styles/globals.css';
 import { useState, useEffect } from 'react';
 import { supabase } from '../lib/initSupabase';
 import Navbar from '../components/Navbar';
+import { useRouter } from 'next/router';
 
 function MyApp({ Component, pageProps }) {
+  const router = useRouter();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
@@ -14,9 +16,11 @@ function MyApp({ Component, pageProps }) {
         updateSupabaseCookie(event, session);
         if (event === 'SIGNED_IN') {
           setIsLoggedIn(true);
+          router.push('/');
         }
         if (event === 'SIGNED_OUT') {
           setIsLoggedIn(false);
+          router.push('/login');
         }
       }
     );
