@@ -15,8 +15,6 @@ const validationSchema = yup.object().shape({
 });
 
 const LoginPage = () => {
-  const loggedInUser = supabase.auth.user();
-  const router = useRouter();
   const [loading, setLoading] = useState(false);
   const {
     register,

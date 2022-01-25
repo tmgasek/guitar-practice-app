@@ -2,9 +2,21 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { supabase } from '../../../lib/initSupabase';
 import EditRoutine from '../../../components/EditRoutine';
+import useSWR from 'swr';
 
-const RoutinePage = ({ routine }) => {
+const fetcher = (url) => fetch(url).then((res) => res.json());
+
+const RoutinePage = () => {
   const router = useRouter();
+  const { id } = router.query;
+  const { data: routine } = useSWR(
+    id ? `/api/getRoutine?id=${id}` : null,
+    fetcher
+  );
+
+  if (!routine) {
+    return null;
+  }
 
   const deleteOne = async (id) => {
     try {
@@ -31,30 +43,12 @@ const RoutinePage = ({ routine }) => {
 
 export default RoutinePage;
 
-export async function getServerSideProps({ req, params }) {
+export async function getServerSideProps({ req }) {
   const { user } = await supabase.auth.api.getUserByCookie(req);
 
   if (!user) {
     return { props: {}, redirect: { destination: '/login' } };
   }
 
-  supabase.auth.setAuth(req.cookies['sb:token']);
-
-  const { data: routine, error } = await supabase
-    .from('routines')
-    .select('*')
-    .eq('id', params.id)
-    .single();
-
-  if (error) {
-    return {
-      notFound: true,
-    };
-  }
-
-  return {
-    props: {
-      routine,
-    },
-  };
+  return { props: {} };
 }

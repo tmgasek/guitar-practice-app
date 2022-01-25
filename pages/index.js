@@ -1,8 +1,15 @@
 import Routines from '../components/Routines';
 import { supabase } from '../lib/initSupabase';
+import useSWR from 'swr';
 
-const Home = ({ routines }) => {
-  console.log(routines);
+const fetcher = (url) => fetch(url).then((res) => res.json());
+
+const Home = () => {
+  const { data: routines } = useSWR('/api/getRoutines', fetcher);
+
+  if (!routines) {
+    return null;
+  }
   return (
     <div>
       <div>
@@ -22,19 +29,5 @@ export async function getServerSideProps({ req }) {
     return { props: {}, redirect: { destination: '/login' } };
   }
 
-  supabase.auth.setAuth(req.cookies['sb:token']);
-
-  const { data: routines, error } = await supabase.from('routines').select('*');
-
-  if (error) {
-    return {
-      notFound: true,
-    };
-  }
-
-  return {
-    props: {
-      routines,
-    },
-  };
+  return { props: {} };
 }
