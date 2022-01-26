@@ -3,7 +3,7 @@ import { supabase } from '../../lib/initSupabase';
 
 const Create = () => {
   return (
-    <div>
+    <div className="max-w-lg mx-auto">
       <ManageRoutine />
     </div>
   );

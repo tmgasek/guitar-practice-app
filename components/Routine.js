@@ -15,14 +15,27 @@ const Routine = ({ routine }) => {
   const date = new Date(routine.inserted_at).toDateString();
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 sm:gap-8 sm:items-center">
+    <div className="grid grid-cols-1 sm:gap-8">
+      <div className="mx-auto">
+        <Timer time={totalTime} />
+      </div>
       <div>
-        <div className="my-6">
-          <h1 className="text-4xl my-2">{routine.title}</h1>
-          <p className="text-carbon my-1">{routine.description}</p>
-          <p>Created on {date}</p>
+        <div className="flex items-start justify-between">
+          <div>
+            <h1 className="text-4xl my-2">{routine.title}</h1>
+            <p className="text-carbon my-1">{routine.description}</p>
+            <p>Created on {date}</p>
+          </div>
+          <div>
+            <button
+              className="btn-tertiary my-2"
+              onClick={() => router.push(`/routine/edit/${routine.id}`)}
+            >
+              Edit
+            </button>
+          </div>
         </div>
-        <div className="sm:pr-10">
+        <div>
           <h3 className="text-2xl my-2">Exercises</h3>
           <div className="border-[1px] border-sky opacity-40 my-4"></div>
           {routine.exercises.map((exercise) => (
@@ -39,16 +52,6 @@ const Routine = ({ routine }) => {
             <div>{totalTime} minutes</div>
           </div>
         </div>
-
-        <button
-          className="btn-secondary my-10"
-          onClick={() => router.push(`/routine/edit/${routine.id}`)}
-        >
-          Edit routine
-        </button>
-      </div>
-      <div>
-        <Timer time={totalTime} />
       </div>
     </div>
   );

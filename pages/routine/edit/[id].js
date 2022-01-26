@@ -22,30 +22,9 @@ const RoutinePage = () => {
     return <div>Error getting data...</div>;
   }
 
-  // const deleteOne = async (id) => {
-  //   try {
-  //     const { error } = await supabase.from('routines').delete().eq('id', id);
-  //     if (error) throw error;
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // };
-
-  // const handleDelete = async (e, routine) => {
-  //   e.preventDefault();
-  //   await deleteOne(routine.id);
-  //   router.push('/');
-  // };
-
   return (
-    <div>
+    <div className="max-w-lg mx-auto">
       <ManageRoutine routineToEdit={routine} />
-      {/* <button
-        className="btn-tertiary"
-        onClick={(e) => handleDelete(e, routine)}
-      >
-        Delete routine
-      </button> */}
     </div>
   );
 };

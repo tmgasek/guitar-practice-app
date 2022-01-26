@@ -17,9 +17,9 @@ const Home = () => {
   }
 
   return (
-    <div>
+    <>
       <Routines routines={routines} />
-    </div>
+    </>
   );
 };
 

@@ -23,7 +23,7 @@ const RoutinePage = () => {
   }
 
   return (
-    <div>
+    <div className="max-w-lg mx-auto">
       <Routine routine={routine} />
     </div>
   );

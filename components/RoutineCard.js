@@ -8,7 +8,7 @@ const RoutineCard = ({ routine }) => {
 
   return (
     <Link href={`/routine/${routine.id}`} passHref>
-      <div className="border-2 border-sky p-4 rounded-lg shadow-md flex flex-col cursor-pointer transition duration-150 ease-in-out transform sm:hover:scale-105 relative">
+      <div className="border-2 border-white p-4 rounded-lg shadow-md flex flex-col cursor-pointer transition duration-150 ease-in-out transform sm:hover:scale-105 relative">
         <div>
           <h2 className="text-xl font-semibold truncate">{routine.title}</h2>
           <p className="truncate text-carbon text-sm">{routine.description}</p>

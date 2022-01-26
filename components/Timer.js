@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { IoPlay, IoPause, IoStop } from 'react-icons/io5';
 
 const Timer = ({ time }) => {
   const [isRunning, setIsRunning] = useState(false);
@@ -46,14 +47,14 @@ const Timer = ({ time }) => {
 
   return (
     <div>
-      <div className="text-7xl py-4 ">{formatSeconds(seconds)}</div>
-      <div className="">
+      <h3 className="text-7xl sm:text-9xl">{formatSeconds(seconds)}</h3>
+      <div className="flex justify-center items-center gap-4">
         <button onClick={handleStartToggle} className="btn-primary">
-          {isRunning ? 'Stop' : 'Start'}
+          {isRunning ? <IoStop /> : <IoPlay />}
         </button>
         {isRunning && (
-          <button onClick={handlePauseToggle} className="btn-secondary mx-4">
-            {isPaused ? 'Resume' : 'Pause'}
+          <button onClick={handlePauseToggle} className="btn-secondary py-2">
+            {isPaused ? <IoPlay /> : <IoPause />}
           </button>
         )}
       </div>

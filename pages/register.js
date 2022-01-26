@@ -52,7 +52,7 @@ const RegisterPage = () => {
   }
 
   return (
-    <div>
+    <div className="max-w-lg mx-auto">
       <h2 className="text-2xl my-4">Register</h2>
       <form onSubmit={handleSubmit(handleRegister)} className="flex flex-col">
         <label htmlFor="email">Email</label>

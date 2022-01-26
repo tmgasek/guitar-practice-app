@@ -102,11 +102,17 @@ const CreateRoutine = ({ routineToEdit }) => {
 
   return (
     <div>
-      {routineToEdit ? (
-        <h2 className="text-2xl mb-4">Edit routine</h2>
-      ) : (
-        <h2 className="text-2xl mb-4">Create a new routine</h2>
-      )}
+      <div className="flex items-center justify-between mb-4">
+        {routineToEdit ? (
+          <h2 className="text-2xl">Edit routine</h2>
+        ) : (
+          <h2 className="text-2xl">Create a new routine</h2>
+        )}
+        <button className="btn-tertiary" onClick={() => router.back()}>
+          Cancel
+        </button>
+      </div>
+
       <form
         onSubmit={
           routineToEdit
@@ -178,7 +184,9 @@ const CreateRoutine = ({ routineToEdit }) => {
             )}
           </div>
         </div>
-        <input className="btn-primary my-4 text-xl " type={'submit'} />
+        <button className="btn-primary my-4 text-xl " type={'submit'}>
+          Submit
+        </button>
       </form>
     </div>
   );

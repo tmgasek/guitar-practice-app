@@ -51,12 +51,12 @@ const LoginPage = () => {
     }
   };
 
-  if (loading) {
+  if (loading || user) {
     return <div>Login succesful! Redirecting to Home...</div>;
   }
 
   return (
-    <div>
+    <div className="max-w-lg mx-auto">
       <h2 className="text-2xl my-4">Login</h2>
       <form onSubmit={handleSubmit(handleLogin)} className="flex flex-col">
         <label htmlFor="email">Email</label>
