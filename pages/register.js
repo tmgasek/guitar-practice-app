@@ -53,7 +53,8 @@ const RegisterPage = () => {
 
   return (
     <div>
-      <form onSubmit={handleSubmit(handleRegister)}>
+      <h2 className="text-2xl my-4">Register</h2>
+      <form onSubmit={handleSubmit(handleRegister)} className="flex flex-col">
         <label htmlFor="email">Email</label>
         <input name="email" type={'email'} {...register('email')} />
         <div>{errors.email?.message}</div>
@@ -70,17 +71,15 @@ const RegisterPage = () => {
         />
         <div>{errors.confirmPassword?.message}</div>
 
-        <input type="submit" />
+        <button type="submit" className="btn-primary my-4">
+          Register
+        </button>
       </form>
-      <div>
-        <h3>
-          Already have an account?{' '}
-          <Link href={'/login'}>
-            <a>
-              <button>Go to Login</button>
-            </a>
-          </Link>
-        </h3>
+      <div className="flex gap-4 items-center">
+        <h3>Already have an account? </h3>
+        <Link href={'/login'}>
+          <a className="text-watermelon hover:text-white">Login</a>
+        </Link>
       </div>
     </div>
   );

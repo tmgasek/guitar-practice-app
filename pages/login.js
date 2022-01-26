@@ -57,7 +57,8 @@ const LoginPage = () => {
 
   return (
     <div>
-      <form onSubmit={handleSubmit(handleLogin)}>
+      <h2 className="text-2xl my-4">Login</h2>
+      <form onSubmit={handleSubmit(handleLogin)} className="flex flex-col">
         <label htmlFor="email">Email</label>
         <input name="email" type={'email'} {...register('email')} />
         <div>{errors.email?.message}</div>
@@ -66,18 +67,14 @@ const LoginPage = () => {
         <input name="password" type={'password'} {...register('password')} />
         <div>{errors.password?.message}</div>
 
-        <button type="submit" className="btn-primary my-2">
-          Submit
+        <button type="submit" className="btn-primary my-4">
+          Login
         </button>
       </form>
-      <div>
-        <h4>Don&apos;t have an account?</h4>
+      <div className="flex gap-4 items-center">
+        <h3>Don&apos;t have an account?</h3>
         <Link href={'/register'}>
-          <a>
-            <button type="submit" className="btn-secondary my-2">
-              Register
-            </button>
-          </a>
+          <a className="text-watermelon hover:text-white">Register</a>
         </Link>
       </div>
     </div>
