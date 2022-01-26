@@ -6,7 +6,7 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        default: [''],
+        default: ['Nunito'],
       },
       colors: {
         sky: '#CAEBF2',

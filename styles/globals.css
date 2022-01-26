@@ -1,24 +1,26 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   html {
-    @apply bg-dark text-neutral;
+    @apply font-default bg-dark text-neutral;
   }
   input {
-    @apply bg-transparent border-2 border-carbon my-1 px-1 mx-1;
+    @apply bg-transparent border-2 border-sky border-opacity-20 my-1 px-1 mx-1;
   }
 }
 
 @layer components {
   .btn-primary {
-    @apply bg-watermelon border-0 font-bold text-dark px-2 py-2 rounded-lg my-4 cursor-pointer transition duration-150 ease-in-out transform hover:scale-95;
+    @apply bg-watermelon border-0 font-bold text-dark p-2 rounded-lg  cursor-pointer transition duration-150 ease-in-out transform hover:scale-95;
   }
   .btn-secondary {
-    @apply bg-sky border-0 font-semibold  text-dark px-2 py-1 rounded-lg my-2 cursor-pointer transition duration-150 ease-in-out transform hover:scale-95;
+    @apply bg-sky border-0 font-semibold  text-dark p-2 rounded-lg cursor-pointer transition duration-150 ease-in-out transform hover:scale-95;
   }
   .btn-tertiary {
-    @apply bg-carbon border-0 font-semibold  text-dark px-2 py-1 rounded-lg my-2 cursor-pointer transition duration-150 ease-in-out transform hover:scale-95;
+    @apply bg-carbon border-0 font-semibold text-sm text-dark p-2 rounded-lg cursor-pointer transition duration-150 ease-in-out transform hover:scale-95;
   }
 }

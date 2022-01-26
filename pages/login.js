@@ -15,6 +15,7 @@ const validationSchema = yup.object().shape({
 });
 
 const LoginPage = () => {
+  const router = useRouter();
   const [loading, setLoading] = useState(false);
   const {
     register,
@@ -23,6 +24,14 @@ const LoginPage = () => {
   } = useForm({
     resolver: yupResolver(validationSchema),
   });
+  const user = supabase.auth.user();
+
+  useEffect(() => {
+    if (user) {
+      router.push('/');
+      console.log('RAN');
+    }
+  }, [router, user]);
 
   const handleLogin = async (data) => {
     //login the user
@@ -57,12 +66,18 @@ const LoginPage = () => {
         <input name="password" type={'password'} {...register('password')} />
         <div>{errors.password?.message}</div>
 
-        <input type="submit" />
+        <button type="submit" className="btn-primary my-2">
+          Submit
+        </button>
       </form>
       <div>
         <h4>Don&apos;t have an account?</h4>
         <Link href={'/register'}>
-          <a>Register</a>
+          <a>
+            <button type="submit" className="btn-secondary my-2">
+              Register
+            </button>
+          </a>
         </Link>
       </div>
     </div>

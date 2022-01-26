@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { supabase } from '../lib/initSupabase';
 import { useRouter } from 'next/router';
 
+import { AiOutlineDelete } from 'react-icons/ai';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
@@ -67,6 +68,20 @@ const CreateRoutine = ({ routineToEdit }) => {
     }
   };
 
+  const deleteRoutine = async () => {
+    try {
+      const { error } = await supabase
+        .from('routines')
+        .delete()
+        .eq('id', routineToEdit.id);
+      if (error) throw error;
+    } catch (error) {
+      console.error(error);
+    } finally {
+      router.push('/');
+    }
+  };
+
   const handleChange = (index, e) => {
     const newExerciseValues = [...exercises];
     newExerciseValues[index][e.target.name] = e.target.value;
@@ -121,10 +136,10 @@ const CreateRoutine = ({ routineToEdit }) => {
         </div>
 
         <div>
-          <h4>Exercises</h4>
+          <h4 className="text-xl my-2">Exercises</h4>
           {exercises.map((exercise, index) => (
             <div key={index}>
-              <div>
+              <div className="flex flex-col">
                 <input
                   type={'text'}
                   name="name"
@@ -145,15 +160,25 @@ const CreateRoutine = ({ routineToEdit }) => {
                 minutes
               </div>
               {index ? (
-                <button onClick={(e) => deleteField(index, e)}>Delete</button>
+                <AiOutlineDelete
+                  onClick={(e) => deleteField(index, e)}
+                  className="cursor-pointer hover:scale-105 text-red-600 my-1 text-xl"
+                />
               ) : null}
             </div>
           ))}
-          <button className="btn-secondary" onClick={addField}>
-            Add an exercise
-          </button>
+          <div className="flex justify-between items-center">
+            <button className="btn-secondary my-2" onClick={addField}>
+              Add a new exercise
+            </button>
+            {routineToEdit && (
+              <button className="btn-tertiary" onClick={() => deleteRoutine()}>
+                Delete routine
+              </button>
+            )}
+          </div>
         </div>
-        <input className="btn-primary " type={'submit'} />
+        <input className="btn-primary my-4 text-xl " type={'submit'} />
       </form>
     </div>
   );
