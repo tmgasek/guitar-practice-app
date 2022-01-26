@@ -51,6 +51,23 @@ const LoginPage = () => {
     }
   };
 
+  const handleLoginWithGoogle = async (data) => {
+    //login the user
+    try {
+      setLoading(true);
+      const { error } = await supabase.auth.signIn({
+        provider: 'google',
+      });
+      //if there's an error received from supabase, we throw it to catch it in the catch block.
+      if (error) throw error;
+    } catch (error) {
+      //show error
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   if (loading || user) {
     return <div>Login succesful! Redirecting to Home...</div>;
   }
@@ -77,6 +94,13 @@ const LoginPage = () => {
           <a className="text-watermelon hover:text-white">Register</a>
         </Link>
       </div>
+      <div className="text-center my-2">OR</div>
+      <button
+        onClick={handleLoginWithGoogle}
+        className="btn-primary my-4 w-full"
+      >
+        Login with Google
+      </button>
     </div>
   );
 };
