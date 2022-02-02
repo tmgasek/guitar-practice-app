@@ -55,47 +55,55 @@ const LoginPage = () => {
     } catch (error) {
       //show error
       console.log(error);
-      toast(error.message);
+      toast.error(error.message);
     } finally {
       setLoading(false);
     }
   };
 
-  if (loading || user) {
-    return (
-      <>
-        <Loader />
-      </>
-    );
-  }
-
+  //conditinally rendering the loading as if we don't, the toastify component will not persist and can't show error.
   return (
     <div className="max-w-lg mx-auto">
       <ToastContainer />
-      <h2 className="text-2xl my-4">Login</h2>
-      <form onSubmit={handleSubmit(handleLogin)} className="flex flex-col">
-        <label htmlFor="email">Email</label>
-        <input name="email" type={'email'} {...register('email')} />
-        <div className="error">{errors.email?.message}</div>
+      {loading || user ? (
+        <>
+          <Loader />
+        </>
+      ) : (
+        <>
+          <h2 className="text-2xl my-4">Login</h2>
+          <form onSubmit={handleSubmit(handleLogin)} className="flex flex-col">
+            <label htmlFor="email">Email</label>
+            <input name="email" type={'email'} {...register('email')} />
+            <div className="error">{errors.email?.message}</div>
 
-        <label htmlFor="password">Password</label>
-        <input name="password" type={'password'} {...register('password')} />
-        <div className="error">{errors.password?.message}</div>
+            <label htmlFor="password">Password</label>
+            <input
+              name="password"
+              type={'password'}
+              {...register('password')}
+            />
+            <div className="error">{errors.password?.message}</div>
 
-        <button type="submit" className="btn-primary my-4">
-          Login
-        </button>
-      </form>
-      <div className="flex gap-4 items-center">
-        <h3>Don&apos;t have an account?</h3>
-        <Link href={'/register'}>
-          <a className="text-watermelon hover:text-white">Register</a>
-        </Link>
-      </div>
-      <div className="text-center my-2">OR</div>
-      <button onClick={() => handleLogin()} className="btn-primary my-4 w-full">
-        Login with Google
-      </button>
+            <button type="submit" className="btn-primary my-4">
+              Login
+            </button>
+          </form>
+          <div className="flex gap-4 items-center">
+            <h3>Don&apos;t have an account?</h3>
+            <Link href={'/register'}>
+              <a className="text-watermelon hover:text-white">Register</a>
+            </Link>
+          </div>
+          <div className="text-center my-2">OR</div>
+          <button
+            onClick={() => handleLogin()}
+            className="btn-primary my-4 w-full"
+          >
+            Login with Google
+          </button>
+        </>
+      )}
     </div>
   );
 };

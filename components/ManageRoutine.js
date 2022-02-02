@@ -49,7 +49,7 @@ const CreateRoutine = ({ routineToEdit }) => {
 
   const createRoutine = async (data) => {
     if (isExerciseEmpty()) {
-      toast('Add at least one exercise!');
+      toast.error('Add at least one exercise!');
       return;
     }
     try {
@@ -66,11 +66,15 @@ const CreateRoutine = ({ routineToEdit }) => {
       router.push('/');
     } catch (error) {
       console.log(error);
-      toast('ERROR');
+      toast.error(error.message);
     }
   };
 
   const editRoutine = async (data) => {
+    if (isExerciseEmpty()) {
+      toast.error('Add at least one exercise!');
+      return;
+    }
     try {
       const { error } = await supabase
         .from('routines')
