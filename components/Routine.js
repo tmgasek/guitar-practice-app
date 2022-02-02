@@ -1,5 +1,6 @@
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
+import { calculateTotalRoutineTime } from '../lib';
 import Timer from './Timer';
 
 const Routine = ({ routine }) => {
@@ -7,9 +8,7 @@ const Routine = ({ routine }) => {
   const router = useRouter();
 
   useEffect(() => {
-    let total = 0;
-    routine.exercises.forEach((exercise) => (total += parseInt(exercise.time)));
-    setTotalTime(total);
+    setTotalTime(calculateTotalRoutineTime(routine.exercises));
   }, [routine.exercises]);
 
   const date = new Date(routine.inserted_at).toDateString();

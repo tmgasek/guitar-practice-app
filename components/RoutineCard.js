@@ -1,10 +1,13 @@
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { calculateTotalRoutineTime } from '../lib';
 
 const RoutineCard = ({ routine }) => {
-  let totalTime = 0;
-  routine.exercises.forEach(
-    (exercise) => (totalTime += parseInt(exercise.time))
-  );
+  const [totalTime, setTotalTime] = useState(null);
+
+  useEffect(() => {
+    setTotalTime(calculateTotalRoutineTime(routine.exercises));
+  }, [routine.exercises]);
 
   return (
     <Link href={`/routine/${routine.id}`} passHref>
