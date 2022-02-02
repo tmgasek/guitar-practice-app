@@ -5,9 +5,13 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { supabase } from '../lib/initSupabase';
+import Loader from '../components/Loader';
+
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const validationSchema = yup.object().shape({
-  email: yup.string().required(),
+  email: yup.string().required().email(),
   password: yup
     .string()
     .required('Password is required')
@@ -29,7 +33,6 @@ const LoginPage = () => {
   useEffect(() => {
     if (user) {
       router.push('/');
-      console.log('RAN');
     }
   }, [router, user]);
 
@@ -37,52 +40,47 @@ const LoginPage = () => {
     //login the user
     try {
       setLoading(true);
-      const { error } = await supabase.auth.signIn({
-        email: data.email,
-        password: data.password,
-      });
+      const { error } = await supabase.auth.signIn(
+        data
+          ? {
+              email: data.email,
+              password: data.password,
+            }
+          : { provider: 'google' }
+      );
       //if there's an error received from supabase, we throw it to catch it in the catch block.
-      if (error) throw error;
+      if (error) {
+        throw error;
+      }
     } catch (error) {
       //show error
       console.log(error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleLoginWithGoogle = async (data) => {
-    //login the user
-    try {
-      setLoading(true);
-      const { error } = await supabase.auth.signIn({
-        provider: 'google',
-      });
-      //if there's an error received from supabase, we throw it to catch it in the catch block.
-      if (error) throw error;
-    } catch (error) {
-      //show error
-      console.log(error);
+      toast(error.message);
     } finally {
       setLoading(false);
     }
   };
 
   if (loading || user) {
-    return <div>Login succesful! Redirecting to Home...</div>;
+    return (
+      <>
+        <Loader />
+      </>
+    );
   }
 
   return (
     <div className="max-w-lg mx-auto">
+      <ToastContainer />
       <h2 className="text-2xl my-4">Login</h2>
       <form onSubmit={handleSubmit(handleLogin)} className="flex flex-col">
         <label htmlFor="email">Email</label>
         <input name="email" type={'email'} {...register('email')} />
-        <div>{errors.email?.message}</div>
+        <div className="error">{errors.email?.message}</div>
 
         <label htmlFor="password">Password</label>
         <input name="password" type={'password'} {...register('password')} />
-        <div>{errors.password?.message}</div>
+        <div className="error">{errors.password?.message}</div>
 
         <button type="submit" className="btn-primary my-4">
           Login
@@ -95,10 +93,7 @@ const LoginPage = () => {
         </Link>
       </div>
       <div className="text-center my-2">OR</div>
-      <button
-        onClick={handleLoginWithGoogle}
-        className="btn-primary my-4 w-full"
-      >
+      <button onClick={() => handleLogin()} className="btn-primary my-4 w-full">
         Login with Google
       </button>
     </div>

@@ -7,11 +7,15 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 const validationSchema = yup.object().shape({
   title: yup.string().required().min(3).max(20),
   description: yup.string().min(3).max(50),
   name: yup.string().min(5),
 });
+
 const CreateRoutine = ({ routineToEdit }) => {
   const router = useRouter();
   //TODO: figure out how to validate dynamic field like this.
@@ -30,7 +34,24 @@ const CreateRoutine = ({ routineToEdit }) => {
     }
   }, [routineToEdit]);
 
+  const isExerciseEmpty = () => {
+    let isError = false;
+
+    if (!exercises[0].name.length) {
+      isError = true;
+    }
+    if (!exercises[0].time) {
+      isError = true;
+    }
+
+    return isError;
+  };
+
   const createRoutine = async (data) => {
+    if (isExerciseEmpty()) {
+      toast('Add at least one exercise!');
+      return;
+    }
     try {
       const user = supabase.auth.user();
       const { error } = await supabase.from('routines').insert([
@@ -42,10 +63,10 @@ const CreateRoutine = ({ routineToEdit }) => {
         },
       ]);
       if (error) throw error;
-      console.log('Successfully submitted');
       router.push('/');
     } catch (error) {
       console.log(error);
+      toast('ERROR');
     }
   };
 
@@ -102,6 +123,7 @@ const CreateRoutine = ({ routineToEdit }) => {
 
   return (
     <div>
+      <ToastContainer />
       <div className="flex items-center justify-between mb-4">
         {routineToEdit ? (
           <h2 className="text-2xl">Edit routine</h2>
@@ -129,7 +151,7 @@ const CreateRoutine = ({ routineToEdit }) => {
             placeholder="Title"
             defaultValue={routineToEdit?.title || ''}
           />
-          <div>{errors.title?.message}</div>
+          <div className="error">{errors.title?.message}</div>
 
           <input
             name="description"
@@ -138,7 +160,7 @@ const CreateRoutine = ({ routineToEdit }) => {
             placeholder="Description"
             defaultValue={routineToEdit?.description || ''}
           />
-          <div>{errors.description?.message}</div>
+          <div className="error">{errors.description?.message}</div>
         </div>
 
         <div>

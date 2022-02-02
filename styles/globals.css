@@ -23,6 +23,14 @@
   .btn-tertiary {
     @apply transition ease-in-out delay-75 bg-transparent border border-carbon hover:-translate-y-1 hover:scale-110 hover:bg-carbon duration-200 hover:text-dark font-bold px-4 py-1 rounded;
   }
+
+  .nav-underline {
+    @apply w-full border border-dark;
+  }
+
+  .error {
+    @apply text-watermelon uppercase tracking-wide;
+  }
 }
 
 .maxFontWidth {
