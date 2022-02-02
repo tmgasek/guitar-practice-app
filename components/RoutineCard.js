@@ -11,9 +11,11 @@ const RoutineCard = ({ routine }) => {
 
   return (
     <Link href={`/routine/${routine.id}`} passHref>
-      <div className="border-2 border-white p-4 rounded-lg shadow-md flex flex-col cursor-pointer transition duration-150 ease-in-out transform sm:hover:scale-105 relative">
+      <div className="border-2 border-sky p-4 rounded-lg shadow-white  shadow-md flex flex-col cursor-pointer transition duration-150 ease-in-out transform sm:hover:scale-105 relative bg-opacity-10 bg-sky">
         <div>
-          <h2 className="text-xl font-semibold truncate">{routine.title}</h2>
+          <h2 className="text-xl font-semibold truncate tracking-wide">
+            {routine.title}
+          </h2>
           <p className="truncate text-carbon text-sm">{routine.description}</p>
         </div>
 
@@ -27,7 +29,7 @@ const RoutineCard = ({ routine }) => {
           ))}
           <div className="border-[1px] my-1 border-sky opacity-40"></div>
         </div>
-        <div className="absolute top-2 right-2 bg-sky text-dark rounded-full p-2 text-xs font-semibold">
+        <div className="absolute top-2 right-2 bg-sky text-dark rounded-full p-2 text-xs font-bold shadow-md shadow-dark">
           {totalTime}m
         </div>
       </div>
