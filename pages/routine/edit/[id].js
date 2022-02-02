@@ -1,8 +1,7 @@
-import { useRouter } from 'next/router';
 import { supabase } from '../../../lib/initSupabase';
-import ManageRoutine from '../../../components/ManageRoutine';
 import useSWR from 'swr';
-
+import { useRouter } from 'next/router';
+import { ManageRoutine, Layout } from '../../../components';
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
 const RoutinePage = () => {
@@ -23,9 +22,11 @@ const RoutinePage = () => {
   }
 
   return (
-    <div className="max-w-lg mx-auto">
-      <ManageRoutine routineToEdit={routine} />
-    </div>
+    <Layout title={`${routine.title} | Editing`}>
+      <div className="max-w-lg mx-auto">
+        <ManageRoutine routineToEdit={routine} />
+      </div>
+    </Layout>
   );
 };
 

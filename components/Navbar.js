@@ -1,8 +1,8 @@
-import { AnimateSharedLayout, motion } from 'framer-motion';
+import { supabase } from '../lib/initSupabase';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { supabase } from '../lib/initSupabase';
+import { AnimateSharedLayout, motion } from 'framer-motion';
 
 const Navbar = ({ user }) => {
   const router = useRouter();

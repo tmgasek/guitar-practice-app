@@ -1,7 +1,7 @@
-import { useRouter } from 'next/router';
-import Routines from '../components/Routines';
 import { supabase } from '../lib/initSupabase';
+import { useRouter } from 'next/router';
 import useSWR from 'swr';
+import { Routines, Layout } from '../components';
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
@@ -30,9 +30,9 @@ const Home = () => {
   }
 
   return (
-    <>
+    <Layout title={'Guitar Practice App'}>
       <Routines routines={routines} />
-    </>
+    </Layout>
   );
 };
 

@@ -1,12 +1,10 @@
 import { useEffect, useState } from 'react';
 import { supabase } from '../lib/initSupabase';
 import { useRouter } from 'next/router';
-
-import { AiOutlineDelete } from 'react-icons/ai';
 import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-
+import { yupResolver } from '@hookform/resolvers/yup';
+import { AiOutlineDelete } from 'react-icons/ai';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 

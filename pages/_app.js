@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { supabase } from '../lib/initSupabase';
 import Navbar from '../components/Navbar';
 import { useRouter } from 'next/router';
+import { AnimatePresence } from 'framer-motion';
 
 function MyApp({ Component, pageProps }) {
   const router = useRouter();
@@ -48,12 +49,12 @@ function MyApp({ Component, pageProps }) {
   }
 
   return (
-    <>
+    <div>
       <Navbar user={isLoggedIn} />
-      <Layout title={'Guitar Practice App'}>
+      <AnimatePresence exitBeforeEnter initial={true}>
         <Component {...pageProps} />
-      </Layout>
-    </>
+      </AnimatePresence>
+    </div>
   );
 }
 

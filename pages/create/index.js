@@ -1,11 +1,12 @@
-import ManageRoutine from '../../components/ManageRoutine';
 import { supabase } from '../../lib/initSupabase';
-
+import { Layout, ManageRoutine } from '../../components';
 const Create = () => {
   return (
-    <div className="max-w-lg mx-auto">
-      <ManageRoutine />
-    </div>
+    <Layout title={'Create new routine'}>
+      <div className="max-w-lg mx-auto">
+        <ManageRoutine />
+      </div>
+    </Layout>
   );
 };
 

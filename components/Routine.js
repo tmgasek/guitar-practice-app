@@ -1,24 +1,22 @@
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Timer from './Timer';
 
 const Routine = ({ routine }) => {
+  const [totalTime, setTotalTime] = useState(null);
   const router = useRouter();
 
-  console.log(routine);
-
-  let totalTime = 0;
-  routine.exercises.forEach(
-    (exercise) => (totalTime += parseInt(exercise.time))
-  );
+  useEffect(() => {
+    let total = 0;
+    routine.exercises.forEach((exercise) => (total += parseInt(exercise.time)));
+    setTotalTime(total);
+  }, [routine.exercises]);
 
   const date = new Date(routine.inserted_at).toDateString();
 
   return (
     <div className="grid grid-cols-1 sm:gap-8">
-      <div className="mx-auto">
-        <Timer time={totalTime} />
-      </div>
+      <div className="mx-auto">{totalTime && <Timer time={totalTime} />}</div>
       <div>
         <div className="flex items-start justify-between">
           <div>

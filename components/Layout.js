@@ -1,15 +1,24 @@
-import Head from 'next/head';
 import React from 'react';
+import Head from 'next/head';
+import { motion } from 'framer-motion';
 
 const Layout = ({ children, title }) => {
   return (
-    <div className="max-w-4xl mx-auto px-4 mt-4 sm:mt-10 text-sm sm:text-base">
+    <>
       <Head>
-        <title>{title}</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>{title || 'Guitar Practice App'}</title>
       </Head>
 
-      {children}
-    </div>
+      <div className="max-w-4xl mx-auto px-4 mt-4 sm:mt-10 text-sm sm:text-base">
+        <motion.main
+          initial={{ scale: 0.9, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+        >
+          {children}
+        </motion.main>
+      </div>
+    </>
   );
 };
 

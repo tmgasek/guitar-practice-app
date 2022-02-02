@@ -1,8 +1,8 @@
-import { useRouter } from 'next/router';
 import { supabase } from '../../lib/initSupabase';
-
 import useSWR from 'swr';
-import Routine from '../../components/Routine';
+import { useRouter } from 'next/router';
+import { Layout, Routine } from '../../components';
+
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
 const RoutinePage = () => {
@@ -19,13 +19,15 @@ const RoutinePage = () => {
 
   if (error) {
     console.log(error);
-    return <div>Error getting data...</div>;
+    return <Layout>Error getting data...</Layout>;
   }
 
   return (
-    <div className="max-w-lg mx-auto">
-      <Routine routine={routine} />
-    </div>
+    <Layout title={routine.title}>
+      <div className="max-w-lg mx-auto">
+        <Routine routine={routine} />
+      </div>
+    </Layout>
   );
 };
 
