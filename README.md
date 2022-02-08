@@ -1,34 +1,25 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Guitar Practice App
 
-## Getting Started
+CRUD application for managing guitar routines. Users can sign up and create a routine with exercises and time allocations for each exercise. Then, a routine can be started with a countdown.
 
-First, run the development server:
+Users can sign up with a username and password, or use Google login to access the site and start creating routines.
 
-```bash
-npm run dev
-# or
-yarn dev
-```
+Once logged in, the user can create a routine consisting of a name, description, and a set of one or more exercises with each exercise containing a name and time. Once added, the time is added up to display the total time this routine will take to perform. This is also displayed in the form of a countdown timer, to accurately keep track of the time allocation for each exercise performed. A routine can be fully edited and also deleted by the user who created it.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+You can find the site live [here](https://guitar-practice-app.vercel.app)
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+More information on this project's development process on my [blog](https://www.tomaszgasek.com/posts/guitar-app)
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+### Technologies used:
+- React
+- Next.js
+- Supabase
+- React Hook Form
+- SWR
+- Tailwind CSS
 
-## Learn More
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+To run this site locally, clone this repo and use:
+- npm install
+- npm run dev
