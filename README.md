@@ -21,5 +21,5 @@ More information on this project's development process on my [blog](https://www.
 
 
 To run this site locally, clone this repo and use:
-- npm install
-- npm run dev
+- `npm install`
+- `npm run dev`
