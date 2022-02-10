@@ -60,6 +60,27 @@ const LoginPage = () => {
     }
   };
 
+  const handleGuestLogin = async () => {
+    //login the user
+    try {
+      setLoading(true);
+      const { error } = await supabase.auth.signIn({
+        email: 'paror47708@bepureme.com',
+        password: 'password',
+      });
+      //if there's an error received from supabase, we throw it to catch it in the catch block.
+      if (error) {
+        throw error;
+      }
+    } catch (error) {
+      //show error
+      console.log(error);
+      toast.error(error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   //conditinally rendering the loading as if we don't, the toastify component will not persist and can't show error.
   return (
     <Layout title={'Login'}>
@@ -72,6 +93,16 @@ const LoginPage = () => {
         ) : (
           <>
             <h2 className="text-2xl my-4">Login</h2>
+            <h3>
+              If you want to see the website without registering, I made a
+              public guest account.
+            </h3>
+            <button
+              onClick={() => handleGuestLogin()}
+              className="btn-primary my-4 w-full"
+            >
+              Login as Guest
+            </button>
             <form
               onSubmit={handleSubmit(handleLogin)}
               className="flex flex-col"
