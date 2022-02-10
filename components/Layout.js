@@ -4,9 +4,8 @@ import { motion } from 'framer-motion';
 
 const Layout = ({ children, title }) => {
   return (
-    <>
+    <div>
       <Head>
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
         <title>{title || 'Guitar Practice App'}</title>
       </Head>
 
@@ -18,7 +17,7 @@ const Layout = ({ children, title }) => {
           {children}
         </motion.main>
       </div>
-    </>
+    </div>
   );
 };
 
