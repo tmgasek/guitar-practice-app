@@ -10,7 +10,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const validationSchema = yup.object().shape({
   title: yup.string().required().min(3).max(20),
-  description: yup.string().min(3).max(50),
+  description: yup.string().min(3).max(100),
   name: yup.string().min(5),
 });
 
@@ -186,6 +186,7 @@ const CreateRoutine = ({ routineToEdit }) => {
                   value={exercise?.time || ''}
                   onChange={(e) => handleChange(index, e)}
                   placeholder="Time"
+                  max={60}
                 />
                 minutes
               </div>
